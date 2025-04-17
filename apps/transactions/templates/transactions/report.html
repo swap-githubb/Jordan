@@ -1,0 +1,38 @@
+{% extends "transactions/base.html" %}
+
+{% block content %}
+<h2>Monthly Report</h2>
+
+<!-- Form to allow user to select the month -->
+<form method="get" action="{% url 'transactions:report' %}">
+    <label for="month">Select Month:</label>
+    <input type="month" id="month" name="month" value="{{ selected_year }}-{{ selected_month|stringformat:"02d" }}">
+    <button type="submit">Update Report</button>
+</form>
+
+<p>Total Income: {{ income_total }}</p>
+<p>Total Expenses: {{ expense_total }}</p>
+
+<table border="1">
+    <tr>
+        <th>Date</th>
+        <th>Type</th>
+        <th>Category</th>
+        <th>Amount</th>
+        <th>Description</th>
+    </tr>
+    {% for transaction in transactions %}
+    <tr>
+        <td>{{ transaction.date }}</td>
+        <td>{{ transaction.transaction_type }}</td>
+        <td>{{ transaction.category }}</td>
+        <td>{{ transaction.amount }}</td>
+        <td>{{ transaction.description }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5">No transactions found for this month.</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock content %}

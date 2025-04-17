@@ -1,0 +1,52 @@
+{% extends "transactions/base.html" %}
+{% load transactions_extras %}  
+
+{% block content %}
+<h2>Budgeting (Expenses Only)</h2>
+
+<!-- Section 1: Month selection (GET form) -->
+<form method="get" action="{% url 'transactions:budgeting' %}">
+    <label for="month">Select Month (Year-Month):</label>
+    <input type="month" id="month" name="month" value="{{ selected_year }}-{{ selected_month|stringformat:"02d" }}">
+    <button type="submit">Show Budgets</button>
+</form>
+
+<!-- Section 2: New Budget Form (no date input, uses the selected month) -->
+<h3>Set a New Budget for {{ selected_year }}-{{ selected_month|stringformat:"02d" }}</h3>
+<form method="post" action="{% url 'transactions:budgeting' %}?month={{ selected_year }}-{{ selected_month|stringformat:"02d" }}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Set Budget</button>
+</form>
+
+<!-- Section 3: Budget Table -->
+<h3>Your Budgets for {{ selected_year }}-{{ selected_month|stringformat:"02d" }}</h3>
+<table border="1">
+    <tr>
+        <th>Category</th>
+        <th>Budget Target</th>
+        <th>Total Expenses</th>
+        <th>Difference</th>
+        <th>Month &amp; Year</th>
+    </tr>
+    {% for budget in budgets %}
+    <tr>
+        <td>{{ budget.category.name }}</td>
+        <td>{{ budget.target_amount }}</td>
+        <td>{{ budget.total_expense }}</td>
+        <td>
+            {% if budget.difference < 0 %}
+                -{{ budget.difference|absval }}
+            {% else %}
+                +{{ budget.difference }}
+            {% endif %}
+        </td>
+        <td>{{ selected_year }}-{{ selected_month|stringformat:"02d" }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5">No budgets found for this month.</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock content %}

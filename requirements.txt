@@ -1,0 +1,10 @@
+Django>=3.2
+psycopg2>=2.8
+Pillow
+requests
+jwt
+Django>=4.2
+gunicorn
+dj-database-url
+whitenoise
+

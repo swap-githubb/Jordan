@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Finance Tracker</title>
+</head>
+<body>
+    <header>
+        <h1>Finance Tracker</h1>
+        <nav>
+            <a href="{% url 'transactions:dashboard' %}">Dashboard</a> |
+            <a href="{% url 'transactions:transaction_list' %}">Transactions</a> |
+            <a href="{% url 'transactions:report' %}">Reports</a> |
+            <a href="{% url 'transactions:budgeting' %}">Budgeting</a> |
+            <a href="{% url 'profile' %}">Profile</a> |
+            <a href="{% url 'logout' %}">Logout</a>
+        </nav>
+        <hr>
+    </header>
+    {% block content %}
+    {% endblock content %}
+</body>
+</html>
