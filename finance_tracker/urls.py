@@ -30,7 +30,7 @@ urlpatterns = [
         LogoutView.as_view(next_page='login'),
         name='logout'
     ),
-
+    path('accounts/', include('apps.accounts.urls')),
     # And your app’s URLs
     path('', include('apps.transactions.urls')),
 ]
